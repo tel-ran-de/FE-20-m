@@ -1,6 +1,6 @@
 # FE-20-m
 
 ### link to lesson 37:
-https://keycode.info/
+Code to keys: https://keycode.info/
 
-https://developer.mozilla.org/ru/docs/Web/API/EventTarget/addEventListener
+EventListener: https://developer.mozilla.org/ru/docs/Web/API/EventTarget/addEventListener
