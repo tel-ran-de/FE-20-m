@@ -94,12 +94,16 @@ function fullInfo(event){
     const id = +event.currentTarget.id.split('-')[1];
             const user = users.find(u => u.id === id);
             right.innerHTML = '';
-            right.innerHTML = `<div class="avatar">
+            const userWrapper = document.createElement('div');
+            userWrapper.classList.add('user-wrapper');
+            userWrapper.innerHTML = `<div class="avatar">
             </div>
             <h3>Name: ${user.name} <br>Last name: ${user.lastName}</h3>
             <p>Age: ${user.age}</p>
             <p>City: ${user.city}</p>
             <p>E-MAil: ${user.email}</p>
             <p>phone: ${user.phone}</p>`;
+            right.append(userWrapper);
+            setTimeout(()=>userWrapper.style.left = '0',200)
             
 }
