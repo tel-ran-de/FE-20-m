@@ -47,7 +47,6 @@ function renderMyShop() {
         container.append(item);
     })
     const buttons = container.querySelectorAll('[data-id]');
-    console.log(buttons);
     buttons.forEach(btn => {
         btn.onclick = goodAddHandler;
     })
@@ -95,32 +94,29 @@ function renderCart() {
         </tr>
         `
     })
+    
+    tbody.onclick = removeFromCart;
     table.append(tbody);
-    //tbody.onclick = removeFromCart;
-    table.onclick = (event)=>{
-        console.log(event.target)
-        if(event.target.classList.contains('fas')){
-            const index = +event.target.dataset.id;
-            const good = cart[index];
-            if(good.quantity > 1){
-                good.quantity--
-            }else{
-                cart.splice(index,1);
-            }
-    
-        }
-        renderCart();
-
-    }
-    
     const total = document.createElement('h3')
-    total.innerHTML = `Total: ${cart.reduce((total, item)=> total += item.price * item.quantity, 0)}`
+    total.innerHTML = `Total: ${cart.reduce((total, item)=> total += item.price * item.quantity, 0)}`;   
     document.querySelector('.right').append(table);
-    document.querySelector('.right').innerHTML += `<hr></hr>`;
     document.querySelector('.right').append(total);
+
 }
 
-/* function removeFromCart(event){
-   
-} */
+function removeFromCart(event){
+    console.log(event)
+    if(event.target.classList.contains('fas')){
+        const index = +event.target.dataset.id;
+        const good = cart[index];
+        if(good.quantity > 1){
+            good.quantity--
+        }else{
+            cart.splice(index,1);
+        }
+
+    }
+    renderCart();
+
+}
 
