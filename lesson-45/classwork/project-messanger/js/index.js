@@ -18,28 +18,30 @@
 //         text: 'some text',
 //         data:'05.10.2021
 // }
+const usersList = document.querySelector('.users-list')
+const leftBox = document.querySelector('.left')
+const rightBox = document.querySelector('.right');
 
-class User {
-    constructor(name, city) {
-        this.name = name
-        this.city = city
-        this.id = User.id++
-    }
-
-    static id = 0
-
-    renderUser() {
-        return `<h3 data-id="${this.id}">${this.name}, ${this.city}</h3>`
-    }
+function findUserById(id){
+    return users.find(user => user.id === id)   //{name: Vasya, city: Berlin, id:0}
 }
 
 const users = [
-    new User('Vasya Pupkin', 'Berlin'),
+    new User('Vasya Pupkin', 'Berlin'),   // -> id 
     new User('Maksym Kostenko', 'Mainz'),
     new User('Ivan Ivanov', 'Kiev')
 ]
 
-const usersList = document.querySelector('.users-list')
+const messages = [
+    new Message(0, 'Hello', 'World', new Date().toLocaleDateString()),
+    new Message(0, 'About', 'Meeting', new Date().toLocaleDateString()),
+    new Message(1, 'Text', 'Info', new Date().toLocaleDateString())
+]
+
+messages[0].comments.push(new Comment(0,0, 'very good',new Date().toLocaleDateString()));
+messages[0].comments.push(new Comment(1,0, 'nice to see you', new Date().toLocaleDateString()));
+messages[1].comments.push(new Comment(2,1, 'hello!', new Date().toLocaleDateString()));
+messages[1].comments.push(new Comment(0,1, 'good bye!', new Date().toLocaleDateString()));
 
 const renderUsersList = (array) => {
     array.forEach(item => {
@@ -49,78 +51,31 @@ const renderUsersList = (array) => {
 
 renderUsersList(users)
 
-class Message {
-    constructor(userId, title, text, data) {
-        this.userId = userId
-        this.title = title
-        this.text = text
-        this.data = data
-        this.comments = []
-        this.id = Message.id++
-    }
-
-    static id = 0
-
-    renderMessage() {
-        return `
-            <div data-message="${this.id}">
-                <h4>${this.title}</h4>
-                <p>Published: ${this.data}</p>
-            </div>
-        `
-    }
-
-    renderFullInfo(userName) {
-        return `
-            <div>
-               <h3>${this.title}</h3>
-               <p>${this.text}</p>
-               <h4>Published: ${this.data}</h4>
-               <hr>
-               ${(this.comments.length === 0) ? "<p>No comment</p>" : this.comments.map(item => item.renderComment(userName)).join('')}
-            </div>
-        `
-    }
-}
-
-class Comment {
-    contructor(userId, messageId, text, data) {
-        this.id = Comment.id++
-        this.userId = userId
-        this.messageId = messageId
-        this.text = text
-        this.data = data
-    }
-
-    static id = 0
-
-    renderComment(userName) {
-        return `
-            <div>
-                <h5>${this.text}</h5>
-                <p>${this.data}, comment by ${userName}</p>
-            </div>
-        `
-    }
-}
-
-const messages = [
-    new Message(0, 'Hello', 'World', new Date().getFullYear()),
-    new Message(0, 'About', 'Meeting', new Date().getFullYear()),
-    new Message(1, 'Text', 'Info', new Date().getFullYear())
-]
-const leftBox = document.querySelector('.left')
-
 usersList.onclick = (event) => {
+    rightBox.innerHTML = ''
     if(event.target.tagName === 'H3'){
-        const user = users.find(item => +event.target.dataset.id === item.id)
-        const userMessages = messages.filter(message => message.userId === user.id)
-        console.log(user)
+        //const user = users.find(item => +event.target.dataset.id === item.id)
+        const userMessages = messages.filter(message => message.userId ===  +event.target.dataset.id)
         console.log(userMessages)
-        leftBox.innerHTML = userMessages.map(item => item.renderMessage()).join('')
+        /* if(!userMessages.length){ 
+            leftBox.innerHTML = `<p>No message</p>`
+        }else{
+            leftBox.innerHTML = userMessages.map(item => item.renderMessage()).join('')
+        } */
+        leftBox.innerHTML = (userMessages.length) ? userMessages.map(item => item.renderMessage()).join('') : '<p>No message</p>'
     }
 }
 
 leftBox.onclick = (event) => {
-    console.log(event.target.dataset.message)
+    //rightBox.innerHTML = ''
+    let target = event.target;
+    if(target.tagName !== 'DIV'){
+        target = event.target.parentNode
+    }
+    const message = messages.find(m => m.id === +target.dataset.message);
+    rightBox.innerHTML = (message) ? message.renderFullInfo() : ''
+
 }
+
+
+
