@@ -1,23 +1,3 @@
-// # проект messanger
-// объект User : {id: 3, name: 'Vasya', city: 'Berlin'}
-// массив из трех users :[user1, user2, user3]
-//
-// массив сообщений: [{
-//     id:0,
-//     userId:3,
-//     title:'Some title',
-//     text: 'Some text',
-//     data: '01.10.2021'
-//     comments:[{}, {}, {}]
-// },{},{}]
-//
-// comment: {
-//     id:0,
-//         userId:3,
-//         postId:0,
-//         text: 'some text',
-//         data:'05.10.2021
-// }
 const usersList = document.querySelector('.users-list')
 const leftBox = document.querySelector('.left')
 const rightBox = document.querySelector('.right');
@@ -54,20 +34,14 @@ renderUsersList(users)
 usersList.onclick = (event) => {
     rightBox.innerHTML = ''
     if(event.target.tagName === 'H3'){
-        //const user = users.find(item => +event.target.dataset.id === item.id)
         const userMessages = messages.filter(message => message.userId ===  +event.target.dataset.id)
         console.log(userMessages)
-        /* if(!userMessages.length){ 
-            leftBox.innerHTML = `<p>No message</p>`
-        }else{
-            leftBox.innerHTML = userMessages.map(item => item.renderMessage()).join('')
-        } */
-        leftBox.innerHTML = (userMessages.length) ? userMessages.map(item => item.renderMessage()).join('') : '<p>No message</p>'
+        const messageList = (userMessages.length) ? userMessages.map(item => item.renderMessage()).join('') : '<p>No message</p>'
+        leftBox.innerHTML = `${messageList}<br><h4>Write new message</h4>` 
     }
 }
 
 leftBox.onclick = (event) => {
-    //rightBox.innerHTML = ''
     let target = event.target;
     if(target.tagName !== 'DIV'){
         target = event.target.parentNode
