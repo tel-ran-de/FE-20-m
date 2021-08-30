@@ -1,14 +1,30 @@
 const right = document.querySelector('.right'),
-      form = document.querySelector('#contact-form');
+      form = document.querySelector('#contact-form'),
+      listLoader = document.querySelector('.lds-dual-ring');
 
+      let currentContatcts = [];
 
-renderList();
+//listLoader.classList.add('hide')
+showListLoader(false);
+loadList();
 
 form.onsubmit = onAddContactHandler;
 
+function loadList(){
+    showRightBox(false);
+    showListLoader(true);
+    Store.getAll().then( contacts =>{
+        showListLoader(false);
+        currentContatcts = contacts;
+        showRightBox(true);
+        renderList();
+    });   
+}
+
 function renderList(){
-    const contacts = Store.getAll();
-    right.innerHTML = contacts.map(mapToRow).join('')
+    right.innerHTML = currentContatcts.map(mapToRow).join('');
+    const buttons = right.querySelectorAll('button');
+    buttons.forEach(b => b.onclick = onRemoveContactHandler);
 }
 
 function mapToRow(contact, index){
@@ -32,7 +48,29 @@ function onAddContactHandler(e){
         form.phone.value,
         form.email.value
     )
-    Store.save(contact);
+    showListLoader(true);
+    showRightBox(false)
+
+    Store.save(contact).then(res =>{
+        currentContatcts = res;
+        showListLoader(false);
+        renderList();
+        showRightBox(true);
+        form.reset();
+    });
+  
+}
+
+function onRemoveContactHandler(e){
+    const index = +e.target.dataset.index;
+    Store.remove(index);
     renderList();
-    form.reset();
+}
+
+function showListLoader(isShow){
+    listLoader.style.display = isShow ? 'block' : 'none'
+}
+
+function showRightBox(isShow){
+    right.style.display = isShow ? 'block' : 'none'
 }

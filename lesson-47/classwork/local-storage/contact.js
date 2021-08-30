@@ -1,5 +1,4 @@
 class Contact{
-    #secret = 'secret'
     constructor(name, lastName, phone, email){
         this.name = name,
         this.lastName = lastName,
@@ -8,4 +7,3 @@ class Contact{
     }
 }
 
-const contact = new Contact('Vasya', 'N', 12345);
