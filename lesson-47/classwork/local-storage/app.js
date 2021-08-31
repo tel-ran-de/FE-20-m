@@ -63,8 +63,10 @@ function onAddContactHandler(e){
 
 function onRemoveContactHandler(e){
     const index = +e.target.dataset.index;
-    Store.remove(index);
-    renderList();
+    Store.remove(index).then(res =>{
+        currentContatcts = res;
+        renderList();
+    });
 }
 
 function showListLoader(isShow){
