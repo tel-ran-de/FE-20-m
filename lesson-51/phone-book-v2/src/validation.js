@@ -1,6 +1,7 @@
 export default function formValidation(form, showMessage){
     let hasError = false;
-     for( element of form){
+    console.log('validation')
+     for(let element of form){
          if(element.localName !== 'button'){           
              if(element.value.trim() === ''){
                  element.classList.add('is-invalid');

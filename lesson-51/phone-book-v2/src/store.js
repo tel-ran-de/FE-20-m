@@ -1,41 +1,44 @@
-export default class Store{
-    static login(email, password){
+export default class Store {
+    static login(email, password) {
         let users = localStorage.getItem('users');
-        if(users !== null){
+        if (users !== null) {
             users = JSON.parse(users);
-            if(users[email] === password){
+            if (users[email] === password) {
                 localStorage.setItem('currentUser', email);
                 return true
             }
         }
-        throw new Error ('Wrong email or password')
+        throw new Error('Wrong email or password')
     }
 
-    static registartion(email, password){
-        let users = localStorage.getItem('users');
-        if(users !== null){
-            users = JSON.parse(users);
-            for(let key in users){
-                if(key === email){
-                    throw new Error (`User with ${email} already exists!`)
+    static registration(email, password) {
+        console.log('hello!')
+        const json = localStorage.getItem('users')
+        let users = {}
+        if (json !== null) {
+            users = JSON.parse(json)
+            for (let key in users) {
+                if (email === key) {
+                    throw new Error(`User with ${email} already exist`)
                 }
             }
-            users[email] = password;
-            localStorage.setItem('users', JSON.stringify(users));
-            localStorage.setItem('currentUser', email);
-            return true
         }
+        users[email] = password
+        localStorage.setItem('users', JSON.stringify(users))
+        localStorage.setItem('currentUser', email)
+        return true
     }
 
-    static getCurrentUser(){
+
+    static getCurrentUser() {
         return localStorage.getItem('currentUser')
     }
 
-    static logout(){
+    static logout() {
         localStorage.removeItem('currentUser')
     }
 
-    static addContact(email, contact){
+    static addContact(email, contact) {
         const json = localStorage.getItem(email);
         /* let contacts = []
         if(json !== null){
@@ -47,19 +50,19 @@ export default class Store{
         return true
     }
 
-    static deleteContact(email, index){
+    static deleteContact(email, index) {
         const contacts = JSON.parse(localStorage.getItem(email));
-        contacts.splice(index,1);
+        contacts.splice(index, 1);
         localStorage.setItem(email, JSON.stringify(contacts))
     }
 
-    static getAllContacts(email){
+    static getAllContacts(email) {
         const contacts = localStorage.getItem(email);
         return contacts ? JSON.parse(contacts) : []
     }
 
-    static getContactByIndex(email, index){
+    /* static getContactByIndex(email, index) {
         const contacts = this.getAllContacts(email);
         return contacts[index]
-    }
+    } */
 }

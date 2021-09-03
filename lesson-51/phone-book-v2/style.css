@@ -66,6 +66,10 @@ ul{
     background-color: #4CAF50;
 }
 
+.home img{
+   width: 100%;
+}
+
 .contacts{
     display: flex;
     height: 90vh;

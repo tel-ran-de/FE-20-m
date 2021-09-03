@@ -13,7 +13,7 @@ export default function contactView(contact){
     <img src="./img/buildings.png" alt="" />
     <h3 ">${contact.address}</h3>
     </div>
-    <p>${contact.desc}</p>
+    <p>${contact.description}</p>
     `
 }
 
