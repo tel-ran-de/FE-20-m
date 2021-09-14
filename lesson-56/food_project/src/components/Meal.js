@@ -1,9 +1,9 @@
-import { MealContext } from './Main'
+import { MealContext } from './MainF'
 
 export default function Meal({ meal }) {
     return (
         <MealContext.Consumer>{
-            context =>{
+            (context) =>{
                 return(
             <div className='col-lg-3 col-md-4 col-6 mb-2 d-flex align-items-stretch'>
                 <div className="card mb-4" >

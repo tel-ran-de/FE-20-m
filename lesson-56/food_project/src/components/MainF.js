@@ -1,30 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import getData from '../store/store';
 import MealList from './MealList';
 import MealWithComments from './MealWithComments';
-import NewComment from './NewComment';
 
 export const MealContext = React.createContext();
 
-export default class Main extends React.Component{
-    state = {
-        meals:getMealsFromJson(),
-        currentMeal: null,
-        error:null
-    }
+export default function MainF(){
 
-    changeCurrentMeal = (id) =>{
-        const meals = this.state.meals
+    const [meals, setMeals] = useState(getMealsFromJson());
+    const [currentMeal, setCurrentMeal] = useState(null)
+  
+
+    const changeCurrentMeal = (id) =>{
         const index = meals.findIndex(meal => meal.idMeal === id)
         const meal = {...meals[index]};
-        this.setState({...this.state, currentMeal: meal})
+        setCurrentMeal(meal)
     }
 
-    showMeals = ()=>{
-        this.setState({...this.state, currentMeal: null})
+    const showMeals = ()=>{
+        setCurrentMeal(null)
     }
-    addComment = (id, comment) =>{
-        const newMeals = [...this.state.meals]
+
+    const addComment = (id, comment) =>{
+        const newMeals = [...meals]
         const index = newMeals.findIndex(meal => meal.idMeal === id)
         const meal = {...newMeals[index]};
         const newComments = [...meal.comments];
@@ -32,26 +30,26 @@ export default class Main extends React.Component{
         meal.comments = newComments;
         meal.rate = (newComments.reduce((sum, comment) => sum += comment.note, 0)/newComments.length).toFixed(2);
         newMeals[index] = meal;
-        this.setState({...this.state, meals: newMeals, currentMeal:meal })
+        setMeals(newMeals)
+        setCurrentMeal(meal)
     }
 
-    render(){
         return(
            <MealContext.Provider value = {{
-               changeCurrentMeal:this.changeCurrentMeal,
-               addComment:this.addComment
+               changeCurrentMeal,
+               addComment
            }}>
             <div className = 'container'>
-                {this.state.currentMeal ? 
-                <MealWithComments meal = {this.state.currentMeal}
-                                  showMeals = {this.showMeals} />                 
+                {currentMeal ? 
+                <MealWithComments meal = {currentMeal}
+                                  showMeals = {showMeals} />                 
                     :
-                <MealList meals ={this.state.meals} />
+                <MealList meals ={meals} />
                  }       
             </div>
          </MealContext.Provider> 
         )
-    }
+    
 }
 
 function getMealsFromJson(){

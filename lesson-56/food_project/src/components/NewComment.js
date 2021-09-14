@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { MealContext } from './Main'
+import { MealContext } from './MainF'
 
 const getClearComment = ()=>{
     return{
