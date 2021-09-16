@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Countries from './components/Countries';
-import Meals from './components/Meals';
+import Meals from './components/MealsF';
 
 export const CountryContext = React.createContext();
 

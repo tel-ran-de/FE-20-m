@@ -29,7 +29,7 @@ export default class Meals extends React.Component{
     }
 
     componentChangeCountry(country){
-        this.setState({...this.state, loading:true})
+        this.setState({...this.state, loading:true, error:null})
         FoodApi.getMealsByCountry(country)
         .then (data =>{
             console.log(data)
@@ -39,7 +39,7 @@ export default class Meals extends React.Component{
                     loading: false,
                     meals: [...data.meals]
                 })
-            }, 1000)
+            }, 1500)
         })
         .catch((error)=>{
             this.setState({
