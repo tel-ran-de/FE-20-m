@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { AppContext } from '../App'
 import { useHistory } from 'react-router-dom'
+import Error from './Error'
 
 const Registartion = ()=>{
 
@@ -12,6 +13,8 @@ const Registartion = ()=>{
         avatar:''
     })
 
+    const [error, setError] = useState(null)
+
     const history = useHistory()
 
     const {addUser} = useContext(AppContext)
@@ -22,13 +25,19 @@ const Registartion = ()=>{
 
     const submitHandler = event =>{
         event.preventDefault()
+        setError(null)
         if (!formData.fName.trim() || !formData.email.trim() || !formData.password.trim()) return
-        addUser(formData)
-        history.push('/users')    
+        if(addUser(formData))
+        history.push('/users')
+        else{
+            setError('user specified email is already exist');
+            setFormData({...formData, email:''})
+        }  
     }
 
     return(
         <div className="container">
+            {error && <Error message = {error} />}
                 <div className="w-50 mx-auto">
                     <form onSubmit={submitHandler}>
                         <div className="form-group">

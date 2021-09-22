@@ -21,11 +21,13 @@ const Navigation = () => {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/albums">Albums</NavLink>
+                        <NavLink to="/albums">
+                            Albums
+                        </NavLink>
                     </li>
                 </ul>
                 { currentUser ? <>
-                <li className ="text-white me-3 list-unstyled">{`Hi, ${getUserNameById(+currentUser)}`}</li>
+                <li className ="text-white me-3 list-unstyled">{`Hi, ${getUserNameById(+currentUser)}!`}</li>
                 <li className ="text-white list-unstyled"
                     onClick = {()=>{
                         logout()

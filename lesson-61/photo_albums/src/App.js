@@ -4,22 +4,31 @@ import Navigation from './components/Navigation';
 import Users from './components/Users';
 import Albums from './components/Albums';
 import Home from './components/Home';
-import usersArray, {getCurrentUserId, setCurrentUserLocalStorage, setUsersToLocalStorage, login, resetCurrentUser} from './data/usersData';
+import {getUsers, getCurrentUserId, setCurrentUserLocalStorage, setUsersToLocalStorage, login, resetCurrentUser} from './data/usersData';
 import Registration from './components/Registration';
 import Login from './components/Login';
+import UserProfile from './components/UserProfile';
+import { getAlbums, setAlbumsToLocalStorage } from './data/albumsData';
 
 export const AppContext = React.createContext()
 
 function App() {
-  const [users, setUsers] = useState(usersArray);
+  const [users, setUsers] = useState(getUsers());
   const [currentUser, setCurrentUser] = useState(getCurrentUserId());
-  const [error, setError] = useState (null)
+  //const [error, setError] = useState (null)
 
   const addUser = (user)=>{
+    const isUserExist = users.some(u => u.email === user.email)
+    if(!isUserExist){
     const newUser = {...user, id: Date.now()}
     const newUsersArray = [...users, newUser]
     setUsers(newUsersArray)
     setUsersToLocalStorage(newUsersArray)
+    setCurrentUser(newUser.id)
+    setCurrentUserLocalStorage(newUser.id)
+    return true
+    }
+    return false
   }
 
   const changeCurrentUser = (currentUser) =>{
@@ -27,9 +36,13 @@ function App() {
     if(idUser){
       setCurrentUser(idUser);
       setCurrentUserLocalStorage(idUser)
-    }else{
-      setError('login or passwird is wrong')
+      return true
     }
+      return false
+  }
+
+  const getCurrentUser = ()=>{
+    return users.find(user => user.id === currentUser)
   }
 
   const getUserNameById = (id)=>{
@@ -41,6 +54,26 @@ function App() {
     resetCurrentUser()
   }
 
+  const updateUser = user =>{
+    const newUsers = [...users]
+    const index = users.indexOf(getCurrentUser()) // users.findIndex(u => u.id === user.id)
+    newUsers[index] = user
+    setUsers(newUsers)
+    setUsersToLocalStorage(newUsers)
+  }
+
+  const [albums, setAlbums] = useState(getAlbums());
+
+  const addNewAlbum = album =>{
+    const newAlbums = [...albums, {...album, id:Date.now()}]
+    setAlbums(newAlbums)
+    setAlbumsToLocalStorage(newAlbums)
+  }
+
+  const currentUserAlbums = ()=>{
+    return albums.filter(album => album.userId === currentUser)
+  }
+
   return (
     <AppContext.Provider value = {{
       users,
@@ -48,10 +81,15 @@ function App() {
       changeCurrentUser,
       currentUser,
       getUserNameById,
-      logout
+      logout,
+      getCurrentUser,
+      updateUser,
+      addNewAlbum,
+      currentUserAlbums
     }} >
       <Navigation />
-      <Switch>       
+      <Switch>
+        <Route path = "/user/:id" component = {UserProfile}/>     
         <Route path ="/users" component ={Users} /> 
         <Route path ="/albums" component ={Albums} />
         <Route path ="/login" component = {Login} />
