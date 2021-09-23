@@ -9,6 +9,8 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import { getAlbums, setAlbumsToLocalStorage } from './data/albumsData';
+import { getPhotos, setPhotosToLocalStorage } from './data/photosData';
+import AlbumPhotos from './components/AlbumPhotos';
 
 export const AppContext = React.createContext()
 
@@ -74,6 +76,18 @@ function App() {
     return albums.filter(album => album.userId === currentUser)
   }
 
+  const getAlbumTitleById =(id) =>{
+    return albums.find(album => album.id === +id).title
+  }
+
+  const [photos, setPhotos] = useState(getPhotos())
+
+  const addNewPhoto = photo =>{
+    const newPhotos = [...photos, {...photo, id:Date.now(), like:0, dislike:0}]
+    setPhotos(newPhotos)
+    setPhotosToLocalStorage(newPhotos)
+  }
+
   return (
     <AppContext.Provider value = {{
       users,
@@ -85,11 +99,17 @@ function App() {
       getCurrentUser,
       updateUser,
       addNewAlbum,
-      currentUserAlbums
+      currentUserAlbums,
+      addNewPhoto,
+      photos,
+      albums,
+      getAlbumTitleById
+
     }} >
       <Navigation />
       <Switch>
-        <Route path = "/user/:id" component = {UserProfile}/>     
+        <Route exact path = "/album/:id/:author" component = {AlbumPhotos} />
+        <Route exact path = "/user/:id" component = {UserProfile}/>     
         <Route path ="/users" component ={Users} /> 
         <Route path ="/albums" component ={Albums} />
         <Route path ="/login" component = {Login} />
