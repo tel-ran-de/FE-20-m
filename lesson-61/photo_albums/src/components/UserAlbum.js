@@ -3,7 +3,7 @@ import { AppContext } from '../App'
 
 const UserAlbum = ({album, setCurrentAlbum})=>{
 
-    const {addNewPhoto} = useContext(AppContext)
+    const {addNewPhoto, getCountPhotoByAlbumId} = useContext(AppContext)
 
     const [photo, setPhoto] = useState(
         {
@@ -25,6 +25,7 @@ const UserAlbum = ({album, setCurrentAlbum})=>{
             <img src={album.cover} className="card-img-top" alt="..." />
             </div>   
                 <h5 className="card-title">{album.title}</h5>
+                <p>{getCountPhotoByAlbumId(album.id)} pictures</p>
                 <button className = "btn btn-primary btn-sm mb-3"
                          onClick = {()=>{
                             setCurrentAlbum(album) 

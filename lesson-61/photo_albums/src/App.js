@@ -88,6 +88,18 @@ function App() {
     setPhotosToLocalStorage(newPhotos)
   }
 
+  const addEvalution = (id, key)=>{  //(123, 'like')  // (123, 'dislike')
+      const newPhotos = [...photos]
+      const index = photos.findIndex(photo => photo.id === id)
+      newPhotos[index][key]++
+      setPhotos(newPhotos)
+      setPhotosToLocalStorage(newPhotos)
+  }
+
+  const getCountPhotoByAlbumId = (id)=>{
+    return photos.filter(photo => photo.albumId === id).length
+  }
+
   return (
     <AppContext.Provider value = {{
       users,
@@ -103,14 +115,16 @@ function App() {
       addNewPhoto,
       photos,
       albums,
-      getAlbumTitleById
-
+      getAlbumTitleById,
+      addEvalution, 
+      getCountPhotoByAlbumId
     }} >
       <Navigation />
       <Switch>
         <Route exact path = "/album/:id/:author" component = {AlbumPhotos} />
         <Route exact path = "/user/:id" component = {UserProfile}/>     
         <Route path ="/users" component ={Users} /> 
+        <Route path ="/albums/user/:id" component = {Albums} />
         <Route path ="/albums" component ={Albums} />
         <Route path ="/login" component = {Login} />
         <Route path = "/registration" component = {Registration} />
