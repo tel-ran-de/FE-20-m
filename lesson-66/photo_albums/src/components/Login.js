@@ -1,56 +1,65 @@
-import { useState, useContext } from 'react'
-import { AppContext } from '../App'
-import { useHistory } from 'react-router-dom'
+import { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import Error from './Error'
+import { connect } from 'react-redux'
+import { login } from '../store/users/actionsCreator'
 
-const Login = ()=>{
-    const [currentUser, setCurrentUser] = useState({email:'', password:''})
-    const [error, setError] = useState(null)
+const Login = ({ currentUser, error, loginUser }) => {
+    const [logData, setLogData] = useState({ email: '', password: '' })
 
-    const onChangeHandler = ({target})=>{   
-        setCurrentUser({...currentUser, [target.name]:target.value})
+    const onChangeHandler = ({ target }) => {
+        setLogData({ ...logData, [target.name]: target.value })
     }
-    const {changeCurrentUser} = useContext(AppContext)
 
-    const history = useHistory();
-
-    return(
+    return (
+        <>
+        {currentUser && <Redirect to ='/users' />}
         <div className='container my-5'>
-            <div className = 'col-6 mx-auto my-5'>
-                {error && <Error message = {error} />}
-            <h2 className ="text-center">Enter your data please</h2>
+            <div className='col-6 mx-auto my-5'>
+                {error.login && <Error message={error.login} />}
+                <h2 className="text-center">Enter your data please</h2>
                 <input
                     className="form-control my-3"
                     type="text"
                     name="email"
                     placeholder="Type email"
-                    onChange = {onChangeHandler}
-                    value = {currentUser.email}
+                    onChange={onChangeHandler}
+                    value={logData.email}
                 />
                 <input
                     className="form-control my-3"
                     type="text"
                     name="password"
                     placeholder="Type password"
-                    value = {currentUser.password}
-                    onChange = {onChangeHandler}
+                    value={logData.password}
+                    onChange={onChangeHandler}
                 />
                 <div className="d-flex justify-content-end">
                     <button className="btn btn-primary"
-                            onClick = {()=>{
-                                setError(null)
-                                if(changeCurrentUser(currentUser)) 
-                                history.push('/users')
-                                else{
-                                    setError('login or password is wrong')
-                                    setCurrentUser({email:'', password:''})
-                                }
-                            }}
-                          >Login</button>
+                        onClick={() => {
+                            loginUser(logData)
+                            setLogData({ email: '', password: '' })
+                        }}
+                    >Login</button>
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
-export default Login
+const mapStateToProps = ({ usersReducer }) => {
+    return {
+        currentUser: usersReducer.currentUser,
+        error: usersReducer.error
+    }
+}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginUser: (data) => dispatch(login(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

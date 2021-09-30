@@ -30,7 +30,7 @@ const Registartion = ({registartionUser, error, currentUser})=>{
         <>{currentUser && <Redirect to ='/users' />}
         <div className="container">   
                 <div className="w-50 mx-auto">
-                {error && <Error message = {error} />}
+                {error.registration && <Error message = {error.registration} />}
                     <form onSubmit={submitHandler}>
                         <div className="form-group">
                             <label>First Name</label>

@@ -2,10 +2,9 @@ import { useContext } from 'react'
 import { AppContext } from '../App'
 import { useHistory } from 'react-router-dom';
 
-const Album = ({album})=>{
-    const {getUserNameById, getCountPhotoByAlbumId} = useContext(AppContext);
+const Album = ({album, userName})=>{
+    const {getCountPhotoByAlbumId} = useContext(AppContext);
     const history = useHistory()
-    const userName = getUserNameById(album.userId);
 
     return(
         <div className = "col">

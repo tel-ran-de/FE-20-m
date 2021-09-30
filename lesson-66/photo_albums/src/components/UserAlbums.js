@@ -3,13 +3,13 @@ import { AppContext } from '../App'
 import UserAlbum from './UserAlbum'
 import UserPhotos from './UserPhotos'
 
-const UserAlbums = ()=>{
-    const {currentUser, addNewAlbum, currentUserAlbums} = useContext(AppContext)
+const UserAlbums = ({currentUser})=>{
+    const { addNewAlbum, currentUserAlbums} = useContext(AppContext)
 
     const [album, setAlbum] = useState({
         title: '',
         cover: '',
-        userId: currentUser,
+        userId: currentUser.id,
     })
 
     const changeFieldHandler = event=>{

@@ -1,13 +1,15 @@
 import { Link, useHistory } from 'react-router-dom'
 import {connect} from 'react-redux'
-import { initialState } from '../store/users/actionsCreator'
-import { useEffect } from 'react'
+import { initialState, logout } from '../store/users/actionsCreator'
+import { useEffect} from 'react'
+import { resetCurrentUser } from '../data/usersData'
 
-const Auth = ({currentUser, initial, loading, users})=>{
-
-    useEffect(()=>{
+const Auth = ({currentUser, initial, loading, users, userLogout})=>{
+    
+    useEffect(()=>{ 
         if(users.length ===0)
         initial()
+        // eslint-disable-next-line
     }, [])
 
     const history = useHistory()
@@ -17,7 +19,8 @@ const Auth = ({currentUser, initial, loading, users})=>{
                 <li className ="text-white me-3 list-unstyled">{`Hi, ${currentUser.fName}!`}</li>
                 <li className ="text-white list-unstyled"
                     onClick = {()=>{
-                        //logout()
+                        userLogout()
+                        resetCurrentUser()
                         history.push('/')
                     }}
                     style = {{cursor :'pointer'}}
@@ -43,7 +46,8 @@ const mapStateToProps = ({usersReducer})=>{
 
 const mapDispatchToProps = dispatch => {
     return{
-        initial: ()=>dispatch(initialState())
+        initial: ()=>dispatch(initialState()),
+        userLogout: ()=>dispatch(logout())
     }
 }
 
