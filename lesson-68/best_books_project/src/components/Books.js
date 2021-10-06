@@ -11,6 +11,8 @@ const Books = ({books, getBooks, history})=>{
         // eslint-disable-next-line
     }, [])
 
+    books.sort((b1,b2) => b2.rate - b1.rate)
+
     return (
         <div className = 'container mt-5'>
             <h2>List of the best books</h2>
