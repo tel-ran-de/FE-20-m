@@ -1,6 +1,6 @@
 import Type from './BooksActionTypes';
 import { startLoading, stopLoading } from '../appReducer/AppActionsCreator';
-import { getBooksFromLocalStorage, addBookToStorage } from '../../data/books';
+import { getBooksFromLocalStorage, addBookToStorage, addCommentToBook } from '../../data/books';
 
 export const getAllBooks = ()=>{
     return dispatch =>{
@@ -31,6 +31,21 @@ export const addBookToBooks = (book) =>{
     }
 }
 
+export const addComment = (bookId, comment) =>{
+    return dispatch =>{
+        dispatch(startLoading())
+        setTimeout(()=>{
+            try{
+                addCommentToBook(bookId, comment)
+                dispatch(_addComment(bookId, comment))
+                dispatch(stopLoading())
+            }catch(e){
+                console.log(e.message)
+            }
+        }, 1000)
+    }
+}
+
 const _getAllBooks = ()=>{
     return{
             type: Type.getAllBooks,
@@ -44,3 +59,15 @@ const _addBook = (book)=>{
         payload:book
     }
 }
+
+const _addComment = (bookId, comment) =>{
+
+    return{
+        type: Type.addCommentToBook,
+        payload:{
+            bookId,
+            comment
+        }
+    }
+}
+

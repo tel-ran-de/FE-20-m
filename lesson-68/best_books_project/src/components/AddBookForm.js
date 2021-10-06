@@ -32,7 +32,7 @@ const AddBookForm = ({addBook, history}) => {
         validate: validateWithYup(yupSchema),
         onSubmit: (values, {reset}) =>{
             console.log("onSubmit: ", values)
-            addBook({...values, id:Date.now()})
+            addBook({...values, id:Date.now(), comments: []})
             reset()
             history.push('/books')
         }

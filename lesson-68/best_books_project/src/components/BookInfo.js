@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getAllBooks } from '../store/booksReducer/BooksActionsCreator'
 import Loader from './Loader'
+import Comments from './Comments'
+import NewComment from './NewComment'
 
 
 const BookInfo = ({ match, history, books, getBooks }) => {
@@ -16,8 +18,9 @@ const BookInfo = ({ match, history, books, getBooks }) => {
     const book = books.find(b => b.id === bookId)
     return (
         books.length ===0 ? <Loader /> :
-        <div className='container mt-5 w-50'>
-            <div className="card text-center mb-3 px-3">
+        <div className='container mt-5'>
+            <div className = 'row'>
+            <div className="card col-4 text-center mb-3 px-3">
                 <div className="card-body">
                     <h3 className="card-title">{book.title}</h3>
                     <h5>by: {book.author}</h5>
@@ -28,6 +31,12 @@ const BookInfo = ({ match, history, books, getBooks }) => {
                     onClick={() => {
                         history.push(`/books`)
                     }}>Back to list</button>
+            </div>
+            <div className = 'col-8 px-5'>
+                <h3 className ='text-center'>Commentars</h3>
+                <Comments />
+                <NewComment bookId = {book.id} />
+            </div>
             </div>
         </div>
 
