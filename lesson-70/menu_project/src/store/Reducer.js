@@ -5,7 +5,8 @@ const init = {
     menu:[],
     error: null,
     cart: [],
-    totalPrice:0
+    totalPrice:0,
+    orderCount:0
 }
     
 export default function reducer(state = init, {type, payload}){
@@ -58,6 +59,36 @@ export default function reducer(state = init, {type, payload}){
                 totalPrice: state.totalPrice + newItem.price
             }
 
+            case Types.removeItem:
+                const index = state.cart.findIndex((el)=>el.id===payload)
+                const newCart = [...state.cart]
+                const itemToRemove = {...newCart[index]}
+                if(itemToRemove.count >1){
+                    itemToRemove.count --
+                    newCart[index]=itemToRemove
+                }else{
+                    newCart.splice(index, 1)
+                }
+                return{
+                    ...state,
+                    cart: [...newCart],
+                    totalPrice: state.totalPrice - itemToRemove.price
+                }
+            case Types.setOrder:
+
+                return {
+                    ...state,
+                    error: null,
+                    orderCount:payload
+
+                }    
+            
+            case Types.clearCart:
+                return{
+                    ...state,
+                    cart:[],
+                    totalPrice:0
+                }    
 
         default: return state
     }
