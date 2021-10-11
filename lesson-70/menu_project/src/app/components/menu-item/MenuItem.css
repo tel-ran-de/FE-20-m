@@ -6,7 +6,7 @@
 .item_block{
     margin: auto;
     width: 700px;
-    height: 450px;
+    min-height: 450px;
     background-color: rgba(250, 248, 248, 0.7);
     border: 6px solid #fff;
     padding: 20px;

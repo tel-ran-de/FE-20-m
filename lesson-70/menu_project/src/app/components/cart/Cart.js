@@ -3,7 +3,7 @@ import './Cart.css';
 import { connect } from 'react-redux'
 import { clearCart, removeItemFromCart, setOrder } from '../../../store/ActionCreator';
 
-const Cart = ({ cart, deleteFromCart, order, clear, totalPrice }) => {
+const Cart = ({ cart, deleteFromCart, order, clear, totalPrice, orderCount }) => {
 
     return (
         cart.length === 0 ? <div className='cart__title'>
@@ -36,7 +36,7 @@ const Cart = ({ cart, deleteFromCart, order, clear, totalPrice }) => {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Your order:</h5>
+                                <h5 className="modal-title" id="exampleModalLabel">Your order &#8470;: {orderCount} </h5>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" 
                                     aria-label="Close"
                                     onClick = {clear}
@@ -51,8 +51,8 @@ const Cart = ({ cart, deleteFromCart, order, clear, totalPrice }) => {
                                    </div>
                                )}
                                <hr/>
-                            </div>
-                            <p>Total: {totalPrice}</p>
+                               <p>Total: {totalPrice}</p>
+                            </div>                   
                             <div className="modal-footer">
                                 <p>Thank's for your order!</p>
                             </div>
@@ -63,10 +63,11 @@ const Cart = ({ cart, deleteFromCart, order, clear, totalPrice }) => {
     );
 };
 
-const mapStateToProps = ({ cart, totalPrice }) => {
+const mapStateToProps = ({ cart, totalPrice, orderCount }) => {
     return {
         cart,
-        totalPrice
+        totalPrice,
+        orderCount
     }
 }
 

@@ -13,6 +13,7 @@ const AppHeader = ({totalPrice}) => {
               <img className ='header__cart' src ={cartIcon} alt ='cart'/>
               Total: {totalPrice} $
           </Link>
+          <Link to = '/order' className ='header__link'>My order</Link>
         </header>
     )
 };

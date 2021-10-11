@@ -5,6 +5,7 @@ import {Route, Switch} from 'react-router-dom'
 import MenuList from './components/menu-list/MenuList';
 import Cart from './components/cart/Cart';
 import MenuItem from './components/menu-item/MenuItem'
+import Order from './components/order/Order';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path = '/' exact component = {MenuList}/>
         <Route path = '/cart' exact component = {Cart} />
         <Route path = '/menu/:id' component = {MenuItem}/>
+        <Route path ='/order' component = {Order} />
       </Switch>
     </div>
   );
