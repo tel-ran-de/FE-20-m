@@ -2,7 +2,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    isLoading: false
+    isLoading: false,
+    auth:false
 }
 
 const appReducer = createSlice({
@@ -14,11 +15,14 @@ const appReducer = createSlice({
         },
         stopLoading: state =>{
             state.isLoading = false
+        },
+        authSucces: state =>{
+            state.auth = localStorage.getItem('USER_ID') !==null   
         }
     }
 })
 
 
 export default appReducer.reducer;
-export const {startLoading, stopLoading} = appReducer.actions;
+export const {startLoading, stopLoading, authSucces} = appReducer.actions;
 export const appSelector = state => state.app

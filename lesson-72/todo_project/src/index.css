@@ -22,6 +22,7 @@ ul{
 }
 .row, form{
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 30px;
   align-items: center;
@@ -32,6 +33,25 @@ ul{
   height: 50px;
   font-size: 1.4rem;
 }
+
+.login input{
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.login-btns{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-btns button{
+  margin-left: 20px;
+  width: 60px;
+  background-color: cornflowerblue;
+}
+
 input.check_box{
   width: 40px;
   margin-right: 10px;
