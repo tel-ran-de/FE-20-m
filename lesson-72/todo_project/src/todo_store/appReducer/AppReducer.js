@@ -1,5 +1,6 @@
 //import AppActionType from './AppActionType'
 import {createSlice} from '@reduxjs/toolkit'
+import { logout } from './../../service/authService'
 
 const initialState = {
     isLoading: false,
@@ -18,11 +19,31 @@ const appReducer = createSlice({
         },
         authSucces: state =>{
             state.auth = localStorage.getItem('USER_ID') !==null   
+        },
+        appLogout: state =>{
+            state.auth = false
         }
     }
 })
 
 
 export default appReducer.reducer;
-export const {startLoading, stopLoading, authSucces} = appReducer.actions;
+export const {startLoading, stopLoading, authSucces, appLogout} = appReducer.actions;
 export const appSelector = state => state.app
+
+export const logoutAction = ()=>{
+    console.log('logout')
+    return async dispatch =>{
+        dispatch(startLoading())
+        try{
+            console.log('before logout')
+            await logout()
+            dispatch(appLogout())
+        }catch(error){
+            console.log(error.message)
+        }
+        finally{
+            dispatch(stopLoading())
+        }
+    }
+}

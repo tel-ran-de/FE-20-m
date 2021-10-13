@@ -11,7 +11,7 @@ const Header = ()=>{
         <form className = 'row' action = '#' 
                  onSubmit = {e =>{
                      e.preventDefault();
-                     dispatch(addTodoAction(input));
+                     dispatch(addTodoAction(input, localStorage.getItem('USER_ID')));
                      setInput('') 
                  }}>
              <input type ='text' name = 'text' placeholder = "Type todo" 
