@@ -5,6 +5,7 @@ const Input = styled.input`
     height: 40px;
     border-radius: 6px;
     margin-top:20px;
+    padding-left:15px;
 
 `
 const Error = styled.p`

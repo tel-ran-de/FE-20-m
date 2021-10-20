@@ -40,10 +40,9 @@ export const registration = async ({email, password})=>{
     try{
         const response = await client.post('/api/user', {email, password});
         await client.get(`/api/user/activation/${response.data}`)
-        console.log(response.data)
+        console.log(response)
     }catch(error){
-        console.log(error)
-        throw new Error(error.message)
+        throw new Error('user is alredy exist')
     }
 }
 
@@ -52,6 +51,16 @@ export const login = async ({email, password}) =>{
         await client.post('/api/user/login', {email, password})
         console.log('login success')
     }catch(error){
-        throw new Error (error.message)
+        throw new Error ('wrong email or password')
+    }
+}
+
+export const getAllContacts = async ()=>{
+    try{
+        const response = await client.get('/api/my-contacts')
+        console.log(response)
+        return response.data
+    }catch(error){
+        console.log(error)
     }
 }
