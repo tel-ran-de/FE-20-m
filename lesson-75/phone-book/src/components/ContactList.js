@@ -1,7 +1,7 @@
-import { getAllContactsAction, contactsSelector } from '../store/contacts'
+import { getAllContactsAction, contactsSelector, deleteContactAction } from '../store/contacts'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import Delete from './../images/trash.png'
 
@@ -9,6 +9,7 @@ import Delete from './../images/trash.png'
 const ContactList = () => {
     const contacts = useSelector(contactsSelector);
     const dispatch = useDispatch()
+    const history = useHistory()
 
     useEffect(() => {
         dispatch(getAllContactsAction())
@@ -19,12 +20,18 @@ const ContactList = () => {
             {contacts.length === 0 && <h3>Contacts list is empty</h3>}
             <List>
                 {contacts.map(contact =>
-                    <Li key={contact.id}>
-                        <Link to={`/contact/${contact.id}`}>
+                <NavLink key={contact.id} to = {`/contacts/${contact.id}`} activeClassName = 'contactActive'>
+                    <Li >
                             {contact.firstName} {contact.lastName}
-                        </Link>
-                        <Image src = {Delete}/>
-                    </Li>)}
+                        <Image src = {Delete}
+                                onClick = {(e)=>{
+                                 e.preventDefault()   
+                                dispatch(deleteContactAction(contact.id))
+                                history.push(`/contacts`)}
+
+                                }/>
+                    </Li>
+                </NavLink>    )}
             </List>
         </Wrapper>
     )
@@ -32,13 +39,16 @@ const ContactList = () => {
 
 export default ContactList
 
-const Wrapper = styled.div`
-    width:50%;
-    margin-top:50px;
+export const Wrapper = styled.div`
+    width:46%;
 `
 const List = styled.ul`
     list-style: none;
-    padding-left:0px
+    padding-left:0px;
+    & a{
+        text-decoration: none;
+        color: black;
+         }
 `
 
 const Li = styled.li`
@@ -49,16 +59,9 @@ const Li = styled.li`
     height: 80px;
     margin-bottom:10px;
     border-bottom: 1px solid black;
-     & a{
-    text-decoration: none;
-    color: black;
-     }
+     
      &:hover{
-         background-color:#1aa592;
-     }
-
-     & a:hover{
-        color:white;
+         background-color:rgba(32,161,142,0.2);
      }
     
 `

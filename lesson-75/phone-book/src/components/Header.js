@@ -15,20 +15,20 @@ const Header = () => {
         <Wrapper>
             <Nav>{!auth &&
                 <HeaderLink style={{ marginLeft: 'auto' }}>
-                    <NavLink to='/login' activeClassName='active'>login/registartion</NavLink>
+                    <NavLink to='/login' >login/registartion</NavLink>
                 </HeaderLink>}
                 {auth && <>
                     <HeaderLink>
-                        <NavLink to='/contacts' activeClassName='active'>all contacts</NavLink>
+                        <NavLink to='/contacts' exact>all contacts</NavLink>
                     </HeaderLink>
                     <HeaderLink>
-                        <NavLink to='/contact/add' activeClassName='active'>add contact</NavLink>
+                        <NavLink to='/contacts/add'>add contact</NavLink>
                     </HeaderLink>
                     <HeaderLink style={{ marginLeft: 'auto' }}
                                 onClick = {()=>{
                                     dispatch(logout())
                                 }}>
-                        <NavLink exact to='/' activeClassName='active' >logout</NavLink>
+                        <NavLink exact to='/'>logout</NavLink>
                     </HeaderLink>
                 </>}
             </Nav>

@@ -64,3 +64,33 @@ export const getAllContacts = async ()=>{
         console.log(error)
     }
 }
+
+export const addNewContact = async (contact)=>{
+    try{
+        const response = await client.post('/api/my-contacts', contact)
+        console.log(response)
+        return response.data
+    }catch(error){
+        console.dir(error)
+        throw new Error(error.response.data.message)
+    }
+}
+
+export const updateMyContact = async (contact)=>{
+    try{
+        const response = await client.put('/api/my-contacts', contact)
+        console.log(response)
+        return response.data
+    }catch(error){
+        console.dir(error)
+        throw new Error(error.response.data.message)
+    }
+}
+
+export const deleteMyContact = async (id) =>{
+    try{
+        await client.delete(`/api/my-contacts/${id}`)
+    }catch(error){
+        throw new Error(error.response.data.message)
+    }
+}
