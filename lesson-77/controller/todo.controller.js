@@ -44,7 +44,7 @@ exports.update = (req, res)=>{
         return
     }
     const id = req.params.id
-    Todo.findByIdAndUpdate(id, req.body, {useFindAndModify:false})
+    Todo.findByIdAndUpdate(id, req.body)
     .then(data =>{
         if(!data){
             res.status(404).send({
